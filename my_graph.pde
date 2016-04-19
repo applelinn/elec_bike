@@ -13,6 +13,7 @@ public class my_graph
   // rpm
   
   // bar
+  // generate bar from color choice
   
   //icons
 }
