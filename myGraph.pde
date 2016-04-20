@@ -3,19 +3,19 @@ import org.gicentre.utils.stat.*;
 public class myGraph
 {
   color lineColor, fontColor, startColor;
-  int startX, startY, lenX, lenY;
+  float startX, startY, lenX, lenY;
   PImage icon;
   float betBarTxt; //spacing between bar and its markings
   int maxSpeed = 250; //speed at lineColor
   int numOfIcon; //number of icons to display
-  int rPadding, lPadding, topPadding, botPadding; //padding from object side
+  float rPadding, lPadding, topPadding, botPadding; //padding from object side
   int rpm;
   float rpmSize, titleSize;
   String title;
   XYChart chart;
   
   //constructor
-  myGraph(int tempStartX, int tempStartY, int tempLenX, int tempLenY, color tempLineColor, PImage tempIcon, String tempTitle)
+  myGraph(float tempStartX, float tempStartY, float tempLenX, float tempLenY, color tempLineColor, PImage tempIcon, String tempTitle)
   {
     //bring in variables
     startX = tempStartX;
@@ -118,7 +118,7 @@ public class myGraph
    textAlign(RIGHT, TOP); 
    fill(fontColor);
    textSize(rpmSize);
-   text(rpm + " RPM", lenX-rPadding, 100); //temp y value
+   text(rpm + " RPM", startX + lenX-rPadding, startY + lenY - lPadding); //temp y value
    return;
  }
  
@@ -143,7 +143,7 @@ public class myGraph
  {
    drawBorder(); //draw border
    
-   genBar(startX + lPadding + lenX/60, startY + lenY - botPadding - lenY/25*2, lenX * 0.7, lenY/25); //speed bar and markings --temp values
+   genBar(startX + lPadding + lenX/30, startY + lenY*0.8, lenX * 0.7, lenY/25); //speed bar and markings --temp values
    
    drawRpm(); //draw rpm
    
