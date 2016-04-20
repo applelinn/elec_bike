@@ -27,7 +27,7 @@ public class myGraph
    
     rpm = 0;
     rpmSize = lenX/15;
-    titleSize = lenX/20;
+    titleSize = lenY/10;
     rPadding = lenX/80;
     title = tempTitle;
     topPadding = lenY/80;
@@ -118,7 +118,7 @@ public class myGraph
    textAlign(RIGHT, TOP); 
    fill(fontColor);
    textSize(rpmSize);
-   text(rpm + " RPM", startX + lenX-rPadding, startY + lenY - lPadding); //temp y value
+   text(rpm + " RPM", startX + lenX-rPadding, startY + titleSize); //temp y value
    return;
  }
  
@@ -143,12 +143,13 @@ public class myGraph
  {
    drawBorder(); //draw border
    
-   genBar(startX + lPadding + lenX/30, startY + lenY*0.8, lenX * 0.7, lenY/25); //speed bar and markings --temp values
+   genBar(startX + lPadding + lenX/30, startY + lenY*0.85, lenX * 0.7, lenY/25); //speed bar and markings --temp values
    
    drawRpm(); //draw rpm
    
-   drawTitle(); // draw 
-   textSize(lenX/80);
+   drawTitle(); // draw title
+   
+   textSize(lenY/50); //text size for graph
    chart.draw(startX + lPadding*2, startY + topPadding*3 + titleSize, lenX *0.7, lenY*0.7); //draw graph
    
    return;
