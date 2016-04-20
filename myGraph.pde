@@ -7,7 +7,12 @@ public class myGraph
   PImage icon;
   int fontSpeed;
   float betBarTxt; //spacing between bar and its markings
-  int maxSpeed; //speed at lineColor
+  int maxSpeed = 250; //speed at lineColor
+  int numOfIcon; //number of icons to display
+  int rPadding, lPadding; //padding from object side
+  int rpm;
+  color fontColor = color(#ffffff);
+  float rpmSize;
   
   //constructor
   myGraph(int tempStartX, int tempStartY, int tempLenX, int tempLenY, color tempLineColor, PImage tempIcon)
@@ -20,7 +25,9 @@ public class myGraph
     lineColor = tempLineColor;
     icon = tempIcon;
    
-    maxSpeed = 250;  //XYChart lineChart = new XYChart(act2.this);
+    rpm = 0;
+    rpmSize = lenX/15;
+    rPadding = lenX/80;  //XYChart lineChart = new XYChart(act2.this);
     
     //bring in icon
     
@@ -30,11 +37,21 @@ public class myGraph
     //load icon
   }
 
-  //update and display rpm
+  //update rpm
+  public void setRpm(int tempRpm)
+  {
+    rpm = tempRpm;
+    return;
+  }
   
   //update graph incl change color
   
   //update # of icons
+  public void updateIcon(int num)
+  {
+    numOfIcon = num;
+    return;
+  }
   
   //generate bar with markings
   private void genBar(int startX, int startY, int w, int h)
@@ -65,9 +82,16 @@ public class myGraph
  //draw whole object
  public void drawObject()
  {
-   genBar(50, 10, 700, 30); //speed bar and markings
+   fill(#000000,0);
+   stroke(#000000);
+   rect(startX, startY, lenX, lenY); //draw border
+   genBar(50, 10, 700, 30); //speed bar and markings --temp values
+   
+   //draw rpm
+   textAlign(RIGHT, TOP); 
+   fill(fontColor);
+   textSize(rpmSize);
+   text(rpm + " RPM", lenX-rPadding, 100);
    return;
  }
-  
-  
 }
