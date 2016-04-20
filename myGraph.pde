@@ -5,18 +5,22 @@ public class myGraph
   color lineColor;
   int startX, startY, lenX, lenY;
   PImage icon;
+  int fontSpeed;
+  float betBarTxt; //spacing between bar and its markings
+  int maxSpeed; //speed at lineColor
   
   //constructor
   myGraph(int tempStartX, int tempStartY, int tempLenX, int tempLenY, color tempLineColor, PImage tempIcon)
   {
-    //bes
+    //bring in variables
     startX = tempStartX;
     startY = tempStartY;
     lenX = tempLenX;
     lenY = tempLenY;
     lineColor = tempLineColor;
     icon = tempIcon;
-     //XYChart lineChart = new XYChart(act2.this);
+   
+    maxSpeed = 250;  //XYChart lineChart = new XYChart(act2.this);
     
     //bring in icon
     
@@ -43,11 +47,17 @@ public class myGraph
       line(l+startX, 0+startY, l+startX, h+startY);
     }
     
+    betBarTxt = (float) h/3;
+    
     //for the markings
-    //zero
-    //100
-    //200
-    //250
+    textSize(h*0.7);
+    textAlign(CENTER, TOP);
+    fill(lineColor);
+    text("0 RPM", startX, startY + betBarTxt + h); //zero
+    text("100 RPM", startX + (float) w/maxSpeed*100, startY + betBarTxt + h); //100
+    text("200 RPM", startX + (float) w/maxSpeed*200, startY + betBarTxt + h); //200
+    text("250 RPM", startX + (float) w/maxSpeed*250, startY + betBarTxt + h); //250
+    
     
    return;
  }
@@ -55,7 +65,7 @@ public class myGraph
  //draw whole object
  public void drawObject()
  {
-   genBar(50, 10, 300, 100); //speed bar
+   genBar(50, 10, 700, 30); //speed bar and markings
    return;
  }
   
