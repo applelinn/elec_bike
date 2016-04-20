@@ -45,6 +45,9 @@ public class myGraph
     chart.setPointSize(5); //temp number
     chart.setLineWidth(8);  //temp number
     chart.setPointColour(lerpColor(#000000, lineColor, 0.5));
+    chart.setLineColour(startColor);
+    chart.showXAxis(true); 
+    chart.showYAxis(true);
   }
 
   //update rpm
@@ -57,7 +60,7 @@ public class myGraph
   //set Data
   public void setData(float[] dataX, float[] dataY)
   {
-    // chart.
+    chart.setData(dataX, dataY);
     return;
   }
   
@@ -65,9 +68,14 @@ public class myGraph
   public void updateChart(float dataS, float dataP)
   {
     // shift data
+    
+    
     //change color
-    chart.setLineColour(lerpColor(startColor, lineColor, dataS/maxSpeed)); //think about this
+    chart.setLineColour(lerpColor(startColor, lineColor, dataS/maxSpeed));
+    
     //update rpm
+    rpm = (int) dataS;
+    
     //update icon
     return;
   }
@@ -139,7 +147,9 @@ public class myGraph
    
    drawRpm(); //draw rpm
    
-   drawTitle(); // draw title
+   drawTitle(); // draw 
+   textSize(lenX/80);
+   chart.draw(startX + lPadding*2, startY + topPadding*3 + titleSize, lenX *0.7, lenY*0.7); //draw graph
    
    return;
  }
