@@ -5,17 +5,17 @@ public class myGraph
   color lineColor;
   int startX, startY, lenX, lenY;
   PImage icon;
-  int fontSpeed;
   float betBarTxt; //spacing between bar and its markings
   int maxSpeed = 250; //speed at lineColor
   int numOfIcon; //number of icons to display
-  int rPadding, lPadding; //padding from object side
+  int rPadding, lPadding, topPadding; //padding from object side
   int rpm;
-  color fontColor = color(#ffffff);
-  float rpmSize;
+  color fontColor;
+  float rpmSize, titleSize;
+  String title;
   
   //constructor
-  myGraph(int tempStartX, int tempStartY, int tempLenX, int tempLenY, color tempLineColor, PImage tempIcon)
+  myGraph(int tempStartX, int tempStartY, int tempLenX, int tempLenY, color tempLineColor, PImage tempIcon, String tempTitle)
   {
     //bring in variables
     startX = tempStartX;
@@ -27,7 +27,11 @@ public class myGraph
    
     rpm = 0;
     rpmSize = lenX/15;
-    rPadding = lenX/80;  //XYChart lineChart = new XYChart(act2.this);
+    titleSize = lenX/20;
+    rPadding = lenX/80;
+    title = tempTitle;
+    topPadding = lenY/80;
+    fontColor = lineColor;  //XYChart lineChart = new XYChart(act2.this);
     
     //bring in icon
     
@@ -79,19 +83,44 @@ public class myGraph
    return;
  }
  
- //draw whole object
- public void drawObject()
+ //draw rpm
+ private void drawRpm()
  {
-   fill(#000000,0);
-   stroke(#000000);
-   rect(startX, startY, lenX, lenY); //draw border
-   genBar(50, 10, 700, 30); //speed bar and markings --temp values
-   
    //draw rpm
    textAlign(RIGHT, TOP); 
    fill(fontColor);
    textSize(rpmSize);
-   text(rpm + " RPM", lenX-rPadding, 100);
+   text(rpm + " RPM", lenX-rPadding, 100); //temp y value
+   return;
+ }
+ 
+ private void drawBorder()
+ {
+   fill(#000000,0);
+   stroke(#000000);
+   rect(startX, startY, lenX, lenY); //draw border
+   return;
+ }
+ 
+ private void drawTitle()
+ {
+   fill(fontColor);
+   textSize(titleSize);
+   textAlign(CENTER, TOP);
+   text(title, startX + (float)lenX/2, startY + topPadding);
+ }
+ 
+ //draw whole object
+ public void drawObject()
+ {
+   drawBorder(); //draw border
+   
+   genBar(50, 10, 700, 30); //speed bar and markings --temp values
+   
+   drawRpm(); //draw rpm
+   
+   drawTitle();
+   
    return;
  }
 }
