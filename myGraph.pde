@@ -35,10 +35,10 @@ public class myGraph
   //generate bar with markings
   private void genBar(int startX, int startY, int w, int h)
  {
-    color white = color(#ffffff); 
-    for (int l = 0; l < h; l++)
+    color zeroColor = lerpColor(#ffffff, lineColor, 0.1); // color(#ffffff); 
+    for (int l = 0; l < w; l++)
     {
-      color sc= lerpColor(white, lineColor, (float) l / (float) h);
+      color sc= lerpColor(zeroColor, lineColor, (float) l / (float) w);
       stroke(sc);
       line(l+startX, 0+startY, l+startX, h+startY);
     }
@@ -55,7 +55,7 @@ public class myGraph
  //draw whole object
  public void drawObject()
  {
-   genBar(50, 10, 100, 100); //speed bar
+   genBar(50, 10, 300, 100); //speed bar
    return;
  }
   

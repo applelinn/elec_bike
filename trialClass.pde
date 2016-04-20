@@ -2,13 +2,13 @@
 
 myGraph g1;
 PImage doge;
-color red = color(255, 0, 0); // color(#FF0000);
+color clr = color(10, 140, 140); // color(#FF0000);
 
 void setup()
 {
   size(displayWidth, displayHeight);
   doge=loadImage("doge.png"); //icon
-  g1 = new myGraph(0, 0, 0, 0, red, doge);
+  g1 = new myGraph(0, 0, 0, 0, clr, doge);
 }
 
 void draw()
