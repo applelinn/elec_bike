@@ -2,17 +2,17 @@ import org.gicentre.utils.stat.*;
 
 public class myGraph
 {
-  color lineColor;
+  color lineColor, fontColor, startColor;
   int startX, startY, lenX, lenY;
   PImage icon;
   float betBarTxt; //spacing between bar and its markings
   int maxSpeed = 250; //speed at lineColor
   int numOfIcon; //number of icons to display
-  int rPadding, lPadding, topPadding; //padding from object side
+  int rPadding, lPadding, topPadding, botPadding; //padding from object side
   int rpm;
-  color fontColor;
   float rpmSize, titleSize;
   String title;
+  XYChart chart;
   
   //constructor
   myGraph(int tempStartX, int tempStartY, int tempLenX, int tempLenY, color tempLineColor, PImage tempIcon, String tempTitle)
@@ -31,14 +31,20 @@ public class myGraph
     rPadding = lenX/80;
     title = tempTitle;
     topPadding = lenY/80;
-    fontColor = lineColor;  //XYChart lineChart = new XYChart(act2.this);
+    startColor = lerpColor(#ffffff, lineColor, 0.1); // color(#ffffff);
+    fontColor = startColor;
+    botPadding = lenY/60;
+    lPadding = rPadding;
     
-    //bring in icon
+    //create graph
+    chart = new XYChart(trialClass.this);
     
-    // bar
-    // generate bar from color choice
-    
-    //load icon
+    //set up graph
+    chart.setYFormat("####.#### W");  // Energy
+    chart.setXFormat("0000");      // time   
+    chart.setPointSize(5); //temp number
+    chart.setLineWidth(8);  //temp number
+    chart.setPointColour(lerpColor(#000000, lineColor, 0.5));
   }
 
   //update rpm
@@ -48,7 +54,23 @@ public class myGraph
     return;
   }
   
+  //set Data
+  public void setData(float[] dataX, float[] dataY)
+  {
+    // chart.
+    return;
+  }
+  
   //update graph incl change color
+  public void updateChart(float dataS, float dataP)
+  {
+    // shift data
+    //change color
+    chart.setLineColour(lerpColor(startColor, lineColor, dataS/maxSpeed)); //think about this
+    //update rpm
+    //update icon
+    return;
+  }
   
   //update # of icons
   public void updateIcon(int num)
@@ -58,9 +80,9 @@ public class myGraph
   }
   
   //generate bar with markings
-  private void genBar(int startX, int startY, int w, int h)
+  private void genBar(float startX, float startY, float w, float h)
  {
-    color zeroColor = lerpColor(#ffffff, lineColor, 0.1); // color(#ffffff); 
+    color zeroColor = startColor; 
     for (int l = 0; l < w; l++)
     {
       color sc= lerpColor(zeroColor, lineColor, (float) l / (float) w);
@@ -78,8 +100,6 @@ public class myGraph
     text("100 RPM", startX + (float) w/maxSpeed*100, startY + betBarTxt + h); //100
     text("200 RPM", startX + (float) w/maxSpeed*200, startY + betBarTxt + h); //200
     text("250 RPM", startX + (float) w/maxSpeed*250, startY + betBarTxt + h); //250
-    
-    
    return;
  }
  
@@ -104,7 +124,7 @@ public class myGraph
  
  private void drawTitle()
  {
-   fill(fontColor);
+   fill(lineColor);
    textSize(titleSize);
    textAlign(CENTER, TOP);
    text(title, startX + (float)lenX/2, startY + topPadding);
@@ -115,11 +135,11 @@ public class myGraph
  {
    drawBorder(); //draw border
    
-   genBar(50, 10, 700, 30); //speed bar and markings --temp values
+   genBar(startX + lPadding + lenX/60, startY + lenY - botPadding - lenY/25*2, lenX * 0.7, lenY/25); //speed bar and markings --temp values
    
    drawRpm(); //draw rpm
    
-   drawTitle();
+   drawTitle(); // draw title
    
    return;
  }
