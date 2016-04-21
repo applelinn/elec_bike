@@ -2,7 +2,7 @@ import org.gicentre.utils.stat.*;
 
 public class myGraph
 {
-  color lineColor, fontColor, startColor;
+  color lineColor, fontColor, startColor, darkerColor;
   float startX, startY, lenX, lenY;
   PImage icon;
   float betBarTxt; //spacing between bar and its markings
@@ -15,7 +15,7 @@ public class myGraph
   XYChart chart;
   
   //constructor
-  myGraph(float tempStartX, float tempStartY, float tempLenX, float tempLenY, color tempLineColor, PImage tempIcon, String tempTitle)
+  myGraph(float tempStartX, float tempStartY, float tempLenX, float tempLenY, color tempLineColor, PImage tempIcon, String tempTitle, color tempStartColor, color dark)
   {
     //bring in variables
     startX = tempStartX;
@@ -31,8 +31,9 @@ public class myGraph
     rPadding = lenX/80;
     title = tempTitle;
     topPadding = lenY/80;
-    startColor = lerpColor(#ffffff, lineColor, 0.1); // color(#ffffff);
+    startColor = tempStartColor; // lerpColor(#ffffff, lineColor, 0.1); // color(#ffffff);
     fontColor = startColor;
+    darkerColor = dark;
     botPadding = lenY/60;
     lPadding = rPadding;
     
@@ -132,7 +133,7 @@ public class myGraph
  
  private void drawTitle()
  {
-   fill(lineColor);
+   fill(darkerColor);
    textSize(titleSize);
    textAlign(CENTER, TOP);
    text(title, startX + (float)lenX/2, startY + topPadding);
@@ -141,7 +142,7 @@ public class myGraph
  //draw whole object
  public void drawObject()
  {
-   drawBorder(); //draw border
+   // drawBorder(); //draw border
    
    genBar(startX + lPadding + lenX/30, startY + lenY*0.85, lenX * 0.7, lenY/25); //speed bar and markings --temp values
    
