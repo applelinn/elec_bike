@@ -25,7 +25,7 @@ void setup()
   
   //small bikes
   clr[0]= color(#4cbb17); // (#6A8347); // (#71B238);
-  startClr[0] = color(#Adff2f);
+  startClr[0] = color(#b7ff49);
   darker[0] = color(#138808);
   
   clr[1]= color(#00d2ff);
@@ -58,7 +58,7 @@ void setup()
 
 void draw()
 {
-  background(#ffffff);
+  background(#FCFBE3);
   for(int i = 0 ; i < 5; ++i)
   {
     g[i].drawObject(); 
