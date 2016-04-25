@@ -9,13 +9,14 @@ public class myGraph
   int maxSpeed = 250; //speed at lineColor
   int numOfIcon; //number of icons to display
   float rPadding, lPadding, topPadding, botPadding; //padding from object side
-  int rpm;
+  float rpm;
   float rpmSize, titleSize;
   String title;
   XYChart chart;
+  PImage led, light;
   
   //constructor
-  myGraph(float tempStartX, float tempStartY, float tempLenX, float tempLenY, color tempLineColor, PImage tempIcon, String tempTitle, color tempStartColor, color dark)
+  myGraph(float tempStartX, float tempStartY, float tempLenX, float tempLenY, color tempLineColor, PImage tempIcon, PImage tempLight, String tempTitle, color tempStartColor, color dark)
   {
     //bring in variables
     startX = tempStartX;
@@ -23,7 +24,8 @@ public class myGraph
     lenX = tempLenX;
     lenY = tempLenY;
     lineColor = tempLineColor;
-    icon = tempIcon;
+    led = changeHue(tempIcon, lineColor);
+    light = changeHue(tempLight, lineColor);
    
     rpm = 0;
     rpmSize = lenX/15;
@@ -51,11 +53,36 @@ public class myGraph
     chart.showYAxis(true);
   }
 
-  //update rpm
-  public void setRpm(int tempRpm)
+//  //update rpm
+//  public void setRpm(int tempRpm)
+//  {
+//    rpm = tempRpm;
+//    return;
+//  }
+  
+  //change hue of led to the color theme of object
+  private PImage changeHue(PImage source, color hue)
   {
-    rpm = tempRpm;
-    return;
+    PImage dest;
+    color temp;
+    dest = createImage(source.width, source.height, RGB);
+    dest.loadPixels();
+    source.loadPixels();
+    
+    for (int x = 0; x < source.width; x++) {
+      for (int y = 0; y < source.height; y++ ) {
+        int loc = x + y*source.width;
+       
+        temp=source.pixels[loc];
+        colorMode(HSB, 360, 100, 100);
+        temp = color(hue(lineColor), saturation(temp), brightness(temp));
+        colorMode(RGB, 255, 255, 255, 100);
+        dest.pixels[loc] = color(red(temp), green(temp), blue(temp), alpha(source.pixels[loc]) + 1 ); //adjust the transparency effect
+        
+      }
+    }
+    dest.updatePixels();
+    return dest;
   }
   
   //set Data
@@ -65,27 +92,60 @@ public class myGraph
     return;
   }
   
-  //update graph incl change color
+  //update graph incl change color THIS ONE IS NOT DONE YET!!!
   public void updateChart(float dataS, float dataP)
   {
-    // shift data
+    // shift data for power array
     
     
     //change color
     chart.setLineColour(lerpColor(startColor, lineColor, dataS/maxSpeed));
     
     //update rpm
-    rpm = (int) dataS;
+    rpm = dataS;
     
-    //update icon
+    //update num of icon
     return;
   }
   
-  //update # of icons
-  public void updateIcon(int num)
+//  //update # of icons
+//  public void updateIcon(int num)
+//  {
+//    numOfIcon = num;
+//    return;
+//  }
+  
+  //draw icons
+  private void drawIcon(int rpm, float startX, float startY, float w, float h)
   {
-    numOfIcon = num;
+    
+    image(modifyIcon(led, rpm), startX, startY, w, h);
+    image(modifyIcon(light,rpm), startX, startY - h*0.1, w, h);
     return;
+  }
+  
+  
+  //modify image according to rmp
+  private PImage modifyIcon (PImage source, float rpm)
+  {
+    PImage destination;
+    destination = createImage(source.width, source.height, RGB);
+    destination.loadPixels();
+    source.loadPixels();
+    
+    for (int x = 0; x < source.width; x++) {
+      for (int y = 0; y < source.height; y++ ) {
+          int loc = x + y*source.width;
+          colorMode(HSB, 360, 100, 100);
+         
+          color temp = source.pixels[loc];
+          temp=color(hue(temp),constrain(10  + rpm, 10, brightness(temp)), constrain(saturation - rpm, 10, 100));  // increase brightness and descrease saturation
+          colorMode(RGB, 255, 255, 255, 100);
+          destination.pixels[loc] = color(red(temp), green(temp), blue(temp), constrain(alpha(source.pixels[loc]) + rpm - 20, 1, alpha(source.pixels[loc])+1) ; //make less transparent
+        }
+      }
+    destination.updatePixels();
+    return destination;
   }
   
   //generate bar with markings
@@ -153,6 +213,7 @@ public class myGraph
    textSize(lenY/50); //text size for graph
    chart.draw(startX + lPadding*2, startY + topPadding*3 + titleSize, lenX *0.7, lenY*0.7); //draw graph
    
+   drawIcon(0, startX + lenX *0.7, startY + lenY*0.3, lenX*0.3, lenY*0.35); //drawIcon
    return;
  }
 }

@@ -1,6 +1,6 @@
 myGraph[] g;
 color[] clr;
-PImage doge;
+PImage doge, led, light;
 //color clr = color(10, 140, 140); // color(#FF0000);
 float smallW; //small object width
 float smallH; //small object height
@@ -14,6 +14,9 @@ void setup()
 {
   size(displayWidth, displayHeight);
   doge=loadImage("doge.png"); //icon
+  led = loadImage("led.png");
+  light = loadImage("light.png");
+  
   g = new myGraph[5];
   smallW = displayWidth/4;
   smallH = displayHeight*0.4;
@@ -25,7 +28,7 @@ void setup()
   
   //small bikes
   clr[0]= color(#4cbb17); // (#6A8347); // (#71B238);
-  startClr[0] = color(#b7ff49);
+  startClr[0] = color(#c5ff6d); //(#b7ff49);
   darker[0] = color(#138808);
   
   clr[1]= color(#00d2ff);
@@ -47,18 +50,21 @@ void setup()
   
   for(int i = 0 ; i < 4; ++i)
   {
-      g[i]= new myGraph(smallW*i, displayHeight-10-smallH, smallW, smallH, clr[i], doge, "Bike " + (i+1), startClr[i], darker[i]);
+      g[i]= new myGraph(smallW*i, displayHeight-10-smallH, smallW, smallH, clr[i], led, light, "Bike " + (i+1), startClr[i], darker[i]);
       g[i].setData(dataxP, datayP);
   }
   
   // the total graph
-  g[4] = new myGraph(0, 0, displayWidth, displayHeight-10 - smallH, clr[4], doge, "Total", startClr[4], darker[4]);
+  g[4] = new myGraph(0, 0, displayWidth, displayHeight-10 - smallH, clr[4], led, light, "Total", startClr[4], darker[4]);
   g[4].setData(dataxP, datayP);
 }
 
 void draw()
 {
-  background(#FCFBE3);
+  background(#001400); //(#003c00); //(#000000); // (#FCFBE3);
+  //update rpm
+  
+  //draw the objects
   for(int i = 0 ; i < 5; ++i)
   {
     g[i].drawObject(); 
