@@ -2,8 +2,11 @@ import org.gicentre.utils.stat.*;    // For chart classes.
 import processing.serial.*;
 
 Serial port;
-float readS; //read speed
-float readP; //read power
+float[] readS; //read speed
+float[] readP; //read power
+String newln; //just to read in the new line
+float sumS, sumP; //for the total graph
+float milli;
 // Displays a simple line chart representing a time series.
 
 //data initialization
@@ -89,6 +92,8 @@ void setup()
 //--------------------------arduino part----------------------------------------------------/
   port = new Serial(this, "COM3", 9600);
   port.bufferUntil('\n'); // take in a line at a time
+  readS = new float[5];
+  readP = new float[5];
 //--------------------------arduino end-----------------------------------------------------/
 
 //--------------------------data extraction (for testing time only)--------------------------------------/
@@ -121,10 +126,10 @@ void draw()
   if(isRead) //if there is data to read then update
   {
     //-----------------------------update rpm---------------------------/
-    tempRpm = readS; //temporarily read only one value
     for(int i = 0 ; i < 5; i++)
     {
-      g[i].setRpm(tempRpm); //temporarily read only one value
+      tempRpm = readS[i];
+      g[i].setRpm(tempRpm); 
     }
     
     //------------------------------update grpah--------------------------/
@@ -132,7 +137,7 @@ void draw()
     
     for(int i = 0; i <5 ; i++)
     {
-      g[i].updateChart(readP);
+      g[i].updateChart(milli, readP[i]);
     }
       
 
@@ -158,10 +163,22 @@ void draw()
   
 }
 
+//---------------------serial events---------------------------------------/
 void serialEvent(Serial port)
 {
-  readS = float(port.readStringUntil(' '));
-  readP = float(port.readStringUntil('\n'));
+  sumS = 0;
+  sumP = 0;
+  milli = float(port.readStringUntil(' '));
+  for(int i = 0; i < 4; ++i)
+  {
+    readS[i] = float(port.readStringUntil(' '));
+    sumS = sumS + readS[i];
+    readP[i] = float(port.readStringUntil('/'));
+    sumP += readP[i];
+  }
+  readS[4] = sumS;
+  readP[4] = sumP;
+  newln = port.readStringUntil('\n');
   isRead=true;
 }
 

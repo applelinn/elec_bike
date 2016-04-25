@@ -98,7 +98,7 @@ public class GraphObj
   }
   
   //-----------------update graph incl change color -------------------------------/
-  public void updateChart(float p)
+  public void updateChart(float x,float p)
   {
     // shift data for power array
     for(int i = 0; i < 10; i++)
@@ -107,7 +107,7 @@ public class GraphObj
       dataP[i] = dataP[i+1];
     }
     dataP[10] = p;
-    dataX[10] = dataX[9]+1;
+    dataX[10] = x;
     
     chart.setData(dataX, dataP);
    
