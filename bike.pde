@@ -122,6 +122,12 @@ void draw()
   background(#000000); //(#313131); 
   textSize(15);
   
+  //draw objects
+  for(int i = 0 ; i < 5; ++i)
+  {
+    g[i].drawObject(); 
+  }
+  
   //--------------------update data-----------------------------------------------------------/
   if(isRead) //if there is data to read then update
   {
@@ -139,7 +145,6 @@ void draw()
     {
       g[i].updateChart(milli, readP[i]);
     }
-      
 
     isRead=false;
   }
@@ -155,11 +160,7 @@ void draw()
 //    output.flush();
 //  }
 
-  //draw objects
-  for(int i = 0 ; i < 5; ++i)
-  {
-    g[i].drawObject(); 
-  }
+
   
 }
 
@@ -169,16 +170,20 @@ void serialEvent(Serial port)
   sumS = 0;
   sumP = 0;
   milli = float(port.readStringUntil(' '));
-  for(int i = 0; i < 4; ++i)
+  for(int i = 0; i < 3; i++)
   {
     readS[i] = float(port.readStringUntil(' '));
     sumS = sumS + readS[i];
     readP[i] = float(port.readStringUntil('/'));
     sumP += readP[i];
   }
+  readS[3] = float(port.readStringUntil(' '));
+  sumS = sumS + readS[3];
+  readP[3] = float(port.readStringUntil('\n'));
+  sumP += readP[3];
   readS[4] = sumS;
   readP[4] = sumP;
-  newln = port.readStringUntil('\n');
+  //newln = port.readStringUntil('\n');
   isRead=true;
 }
 

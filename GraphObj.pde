@@ -45,7 +45,7 @@ public class GraphObj
     
     //set up graph
     chart.setYFormat("####.#### W");  // Energy
-    chart.setXFormat("0000");      // time   
+    //chart.setXFormat("0000");      // time   
     chart.setPointSize(5); //temp number
     chart.setLineWidth(8);  //temp number
     chart.setPointColour(lerpColor(#000000, lineColor, 0.5));
