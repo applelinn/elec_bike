@@ -15,10 +15,12 @@ public class GraphObj
   XYChart chart;
   PImage led, light;
   float[] dataX, dataP;
+  int isBig;
   
   //constructor
-  GraphObj(float tempStartX, float tempStartY, float tempLenX, float tempLenY, int tempLineColor, PImage tempIcon, PImage tempLight, String tempTitle, int tempStartColor, int dark)
+  GraphObj(float tempStartX, float tempStartY, float tempLenX, float tempLenY, int tempLineColor, PImage tempIcon, PImage tempLight, String tempTitle, int tempStartColor, int dark, int tempisBig)
   {
+    isBig=tempisBig;
     //bring in variables
     startX = tempStartX;
     startY = tempStartY;
@@ -126,11 +128,19 @@ public class GraphObj
   //draw icons
   private void drawIcon(float rpm, float startX, float startY, float w, float h)
   {
-    if(rpm > 100)
-      image(modifyIcon(light,rpm-80), startX, startY - h*0.1, w, h); //alignment issue manually fixed with -h*0.1
-    if(rpm > 130)
-      image(modifyIcon(light,rpm-100), startX, startY - h*0.1, w, h); //alignment issue manually fixed with -h*0.1
-    image(modifyIcon(led, rpm), startX, startY, w, h);
+    if(isBig == 1)
+    {
+      image(modifyIcon(led, rpm/2), startX, startY, w, h);
+    }
+    else
+    {
+      if(rpm > 100)
+        image(modifyIcon(light,rpm-80), startX, startY - h*0.1, w, h); //alignment issue manually fixed with -h*0.1
+      if(rpm > 130)
+        image(modifyIcon(light,rpm-100), startX, startY - h*0.1, w, h); //alignment issue manually fixed with -h*0.1
+      image(modifyIcon(led, rpm), startX, startY, w, h);
+    }
+
     
     return;
   }
@@ -224,8 +234,10 @@ public class GraphObj
    textSize(lenY/50); //text size for graph
    chart.setData(dataX, dataP);
    chart.draw(startX + lPadding*2, startY + topPadding*3 + titleSize, lenX *0.7, lenY*0.7); //draw graph
-   
-   drawIcon(rpm, startX + lenX *0.7, startY + lenY*0.3, lenX*0.3, lenY*0.35); //drawIcon
+   if(isBig == 1)
+     drawIcon(rpm, startX + lenX *0.7, startY + lenY*0.2, lenX*0.3, lenY*0.7); //drawIcon
+   else
+     drawIcon(rpm, startX + lenX *0.7, startY + lenY*0.4, lenX*0.3, lenY*0.35); //drawIcon
    return;
  }
 }

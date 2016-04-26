@@ -2,10 +2,11 @@ float motorSpeed[4];
 float K; //generator const; unit W/rpm
 float power[4];
 int sensorVal[4];
-int pins[8] = {2, 3, 5, 6, 7, 8, 10, 11}; //stores the pins of bikes
+int pins[8] = {2, 3, 5, 6, 8, 9, 11, 12}; //stores the pins of bikes
 
 long time0[4] = {0.0,0.0,0.0,0.0};
-long tlast=0;
+long tlast[4] = {0,0,0,0};
+long tlastmax=0;
 
 void setup() {
   //start serial connection
@@ -13,20 +14,20 @@ void setup() {
   //configure pin2 as an input and enable the internal pull-up resistor
 
   //pin 2,3 bike 0
-  pinMode(2, INPUT_PULLUP);
-  pinMode(3, OUTPUT);
+  pinMode(pins[0], INPUT_PULLUP);
+  pinMode(pins[1], OUTPUT);
 
   //pin 5,6 bike 1
-  pinMode(5, INPUT_PULLUP);
-  pinMode(6, OUTPUT);
+  pinMode(pins[2], INPUT_PULLUP);
+  pinMode(pins[3], OUTPUT);
 
   //pin 7,8 bike 2
-  pinMode(7, INPUT_PULLUP);
-  pinMode(8, OUTPUT);
+  pinMode(pins[4], INPUT_PULLUP);
+  pinMode(pins[5], OUTPUT);
 
   //pin 10, 11 bike 3
-  pinMode(10, INPUT_PULLUP);
-  pinMode(11, OUTPUT);
+  pinMode(pins[6], INPUT_PULLUP);
+  pinMode(pins[7], OUTPUT);
   
   // K = ((250.0/330)/330); //K value too small
 }
@@ -39,7 +40,7 @@ void loop() {
     //check if sensor i detects anything
     sensorVal[i] = digitalRead(pins[i*2]);
     if (sensorVal[i] == LOW) {
-      digitalWrite(pins[i*2+1], HIGH); //if magnet, light up
+      digitalWrite(13, HIGH); //if magnet, light up
       long t=millis();
       long deltaT=t-time0[i];
       if (deltaT > 200){
@@ -48,8 +49,16 @@ void loop() {
         //print all bikes
         Serial.print(millis());
         Serial.print(" ");
+        tlast[i]=t; //tlast
+        if(tlastmax<tlast[i])
+          tlastmax= tlast[i];
         for(int j = 0; j < 4; j++)
         {
+          if(millis() - tlast[j] >1500)
+          {
+            motorSpeed[j]=0;
+            power[j]=0;
+          }
           Serial.print(motorSpeed[j]);
           Serial.print(" ");
           Serial.print(power[j], 6);
@@ -58,17 +67,17 @@ void loop() {
         }
         Serial.println();
         
-        tlast=t; //tlast is just to make sure the graph flows with time even if there is no one cycling
+       
       }
       time0[i]=t;
     } else {
-      if(millis()-tlast>1500)
+      if(millis()-(tlastmax)>1500)
       {
         Serial.print(millis());
         Serial.println(" 0 0 0 0 0 0 0 0");
-        tlast=millis();
+        tlastmax=millis();
       }
-      digitalWrite(3, LOW);
+      digitalWrite(pins[2*i+1], LOW);
     }
   }
     

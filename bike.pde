@@ -17,7 +17,7 @@ boolean isRead=false;
 
 //PImage doge;
 //done in class PImage bar;
-PImage led, light;
+PImage led, light, bulb;
 
 //reading txt stuff
 //String[] appliance;
@@ -48,6 +48,7 @@ void setup()
   //load images
   led = loadImage("led.png");
   light = loadImage("light.png");
+  bulb = loadImage("bulb.png");
   
   //size of individual bike graphs
   smallW = displayWidth/4;
@@ -72,20 +73,20 @@ void setup()
   startClr[3] = color(#Fee5d9); //(lerpColor(#ffffff, clr[3], 0.1));
   darker[3] = color(#Cb181d);
   //total
-  clr[4]= color(#000000);
+  clr[4]= #ffff00; //color(#000000);
   startClr[4] = color(lerpColor(#ffffff, clr[4], 0.1));
-  darker[4] = color(#000000);
+  darker[4] = #ffff00; //color(#000000);
   
   //create new charts
   g = new GraphObj[5];
   //the individual bikes graph
   for(int i = 0 ; i < 4; ++i)
   {
-      g[i]= new GraphObj(smallW*i, displayHeight-10-smallH, smallW, smallH, clr[i], led, light, "Bike " + (i+1), startClr[i], darker[i]);
+      g[i]= new GraphObj(smallW*i, displayHeight-10-smallH, smallW, smallH, clr[i], led, light, "Bike " + (i+1), startClr[i], darker[i],0);
       g[i].setData(dataxP, datayP); //set intial data
   }
   // the total graph
-  g[4] = new GraphObj(0, 0, displayWidth, displayHeight-10 - smallH, clr[4], led, light, "Total", startClr[4], darker[4]);
+  g[4] = new GraphObj(0, 0, displayWidth, displayHeight-10 - smallH, clr[4], bulb, light, "Total", startClr[4], darker[4], 1);
   g[4].setData(dataxP, datayP);
 //-------------------------oop end----------------------------------------------------------/
 
@@ -183,7 +184,6 @@ void serialEvent(Serial port)
   sumP += readP[3];
   readS[4] = sumS;
   readP[4] = sumP;
-  print(milli);
   //newln = port.readStringUntil('\n');
 //  print(newln);
   isRead=true;
