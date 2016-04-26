@@ -222,6 +222,7 @@ public class GraphObj
    drawTitle(); // draw title
    
    textSize(lenY/50); //text size for graph
+   chart.setData(dataX, dataP);
    chart.draw(startX + lPadding*2, startY + topPadding*3 + titleSize, lenX *0.7, lenY*0.7); //draw graph
    
    drawIcon(rpm, startX + lenX *0.7, startY + lenY*0.3, lenX*0.3, lenY*0.35); //drawIcon

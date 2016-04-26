@@ -10,7 +10,7 @@ float milli;
 // Displays a simple line chart representing a time series.
 
 //data initialization
-float[] dataxP =  {0,1,2,3,4,5,6,7,8,9,10};
+float[] dataxP =  {0,0,0,0,0,0,0,0,0,0,0};// {0,1,2,3,4,5,6,7,8,9,10};
 float[] datayP =  {0,0,0,0,0,0,0,0,0,0,0};
 
 boolean isRead=false;
@@ -174,7 +174,7 @@ void serialEvent(Serial port)
   {
     readS[i] = float(port.readStringUntil(' '));
     sumS = sumS + readS[i];
-    readP[i] = float(port.readStringUntil('/'));
+    readP[i] = float(port.readStringUntil(' '));
     sumP += readP[i];
   }
   readS[3] = float(port.readStringUntil(' '));
@@ -183,7 +183,9 @@ void serialEvent(Serial port)
   sumP += readP[3];
   readS[4] = sumS;
   readP[4] = sumP;
+  print(milli);
   //newln = port.readStringUntil('\n');
+//  print(newln);
   isRead=true;
 }
 
