@@ -200,7 +200,7 @@ public class GraphObj
    textAlign(RIGHT, TOP); 
    fill(lerpColor(startColor, darkerColor, rpm/maxSpeed));
    textSize(rpmSize);
-   text(rpm + " RPM", startX + lenX-rPadding, startY + titleSize); //temp y value
+   text(String.format("%.1f", dataP[10]) + " W", startX + lenX-rPadding, startY + titleSize); //temp y value
    return;
  }
  
